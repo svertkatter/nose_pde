@@ -30,15 +30,17 @@ MediaPipeとOpenCVを使用した高機能版です。
 
 **詳細：** [python/readme.md](python/readme.md) を参照
 
-### Processing版（`nose_pde/`フォルダ）
+### Processing版（`processing/`フォルダ）
 
-Python版をProcessingに移植した版です。Processing環境で動作するため、セットアップが簡単です。
+Python版をProcessingに移植した版です。**単一ファイル構成**でアプリケーション化も簡単です。
 
 **特徴：**
+- ✅ **単一ファイル**: すべてのコードが1つの.pdeファイルに統合
 - OpenCV for Processingによる顔検出
 - 複数人トラッキング
 - 鼻オーバーレイ表示
 - デバッグ情報表示
+- アプリケーションとしてエクスポート可能
 
 **制限事項：**
 - MediaPipeの高度な機能は非対応
@@ -50,7 +52,7 @@ Python版をProcessingに移植した版です。Processing環境で動作する
 - OpenCV for Processing ライブラリ
 - Video ライブラリ
 
-**詳細：** [nose_pde/README.md](nose_pde/README.md) を参照
+**詳細：** [processing/README.md](processing/README.md) を参照
 
 ## どちらを使うべきか
 
@@ -62,6 +64,7 @@ Python版をProcessingに移植した版です。Processing環境で動作する
 | 簡単にセットアップしたい | Processing版 |
 | Processingの知識がある | Processing版 |
 | プロトタイピング | Processing版 |
+| アプリケーション化したい | Processing版 |
 
 ## プロジェクト構成
 
@@ -76,11 +79,11 @@ nose_pde/
 │   ├── utils.py        # ユーティリティ関数
 │   └── readme.md       # Python版README
 │
-└── nose_pde/           # Processing版
-    ├── nose_pde.pde    # メインスケッチ
-    ├── CentroidTracker.pde  # 顔トラッキング
-    ├── NoseLogic.pde   # 鼻スケール計算
-    └── README.md       # Processing版README
+└── processing/         # Processing版（単一ファイル）
+    ├── processing.pde  # メインスケッチ（統合版）
+    ├── README.md       # Processing版README
+    └── assets/         # リソースフォルダ
+        └── nose_*.png  # 鼻画像
 ```
 
 ## 共通のリソース
@@ -100,7 +103,7 @@ nose_pde/
 ## 開発履歴
 
 - **Python版**: 元のバージョン。exe形式で実行可能（distやbuildフォルダは未アップロード）
-- **Processing版**: Python版からの移植版
+- **Processing版**: Python版からの移植版。単一ファイル構成でアプリケーション化が容易
 
 ## ライセンス
 
