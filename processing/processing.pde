@@ -120,7 +120,7 @@ void draw() {
   }
 
   // 割り当て処理
-  updateAssignment(objects, smileScores);
+  updateAssignment(objects);
 
   // 鼻スケールの更新
   HashMap<Integer, Float> noseScales = noseLogic.update(objects, smileScores);
@@ -164,7 +164,7 @@ void draw() {
 // ================================================================
 // ヘルパー関数
 // ================================================================
-void updateAssignment(HashMap<Integer, int[]> objects, HashMap<Integer, Float> smileScores) {
+void updateAssignment(HashMap<Integer, int[]> objects) {
   float curTime = millis() / 1000.0;
   ArrayList<Integer> currentFaces = new ArrayList<Integer>(objects.keySet());
 
@@ -256,7 +256,7 @@ void drawNoseOverlay(HashMap<Integer, int[]> objects, HashMap<Integer, Float> no
   scale = min(maxScale, scale);
 
   // 基準サイズ（顔の幅の約0.45倍）
-  int[] box = findFaceBox(assignedId, objects);
+  int[] box = findFaceBox();
   float baseSize = 120;
   if (box != null) {
     baseSize = box[2] * 0.45;
@@ -271,7 +271,7 @@ void drawNoseOverlay(HashMap<Integer, int[]> objects, HashMap<Integer, Float> no
   imageMode(CORNER);
 }
 
-int[] findFaceBox(int targetId, HashMap<Integer, int[]> objects) {
+int[] findFaceBox() {
   // 実際の実装では、顔のバウンディングボックスを保持する必要がある
   // ここでは簡略化のため null を返す
   return null;
@@ -645,13 +645,13 @@ class NoseLogic {
     }
   }
 
-  boolean candidateOn(int pid, float s, float base, float sigma) {
+  boolean candidateOn(float s, float base, float sigma) {
     float thrAbsOn = SMILE_ON_THRESH;
     float thrRelOn = base + max(DELTA_ON, K_SIGMA_ON * sigma);
     return (s >= thrAbsOn) && (s >= thrRelOn);
   }
 
-  boolean candidateOff(int pid, float s, float base, float sigma) {
+  boolean candidateOff(float s, float base, float sigma) {
     float thrAbsOff = SMILE_OFF_THRESH;
     float thrRelOff = base + max(DELTA_OFF, K_SIGMA_OFF * sigma);
     return (s < thrAbsOff) || (s < thrRelOff);
@@ -700,8 +700,8 @@ class NoseLogic {
       float sigma = noiseEma.getOrDefault(pid, 0.0);
 
       // 候補ON/OFF判定
-      boolean candOn = candidateOn(pid, s, base, sigma);
-      boolean candOff = candidateOff(pid, s, base, sigma);
+      boolean candOn = candidateOn(s, base, sigma);
+      boolean candOff = candidateOff(s, base, sigma);
 
       if (isOn.getOrDefault(pid, false)) {
         if (candOff) {
